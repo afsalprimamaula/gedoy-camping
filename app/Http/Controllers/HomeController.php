@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CampingPackage;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    // Method untuk menampilkan halaman Landing Page
     public function index()
     {
-        return view('home');
+        // Mengambil semua data paket camping dari database PostgreSQL
+        $packages = CampingPackage::all();
+
+        // Mengirimkan data tersebut ke dalam view home.blade.php
+        return view('home', compact('packages'));
     }
 }
