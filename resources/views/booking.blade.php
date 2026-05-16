@@ -15,14 +15,14 @@
                     <h2 class="text-3xl font-bold mb-2">{{ $package->name }}</h2>
                     <p class="text-emerald-100 mb-6 text-sm">{{ $package->description }}</p>
                     <div class="text-2xl font-extrabold mb-4">
-                        Rp {{ number_format($package->price, 0, ',', '.') }}<span class="text-sm font-normal">/malam</span>
+                        Rp {{ number_format($package->price, 0, ',', '.') }}<span class="text-sm font-normal text-emerald-200">/malam</span>
                     </div>
                     <ul class="space-y-2 mb-8">
                         <li class="flex items-center gap-2 text-sm"><span>👥</span> Kapasitas Maks. {{ $package->capacity }} Orang</li>
                     </ul>
                 </div>
                 <div class="bg-emerald-900/50 p-4 rounded-xl border border-emerald-700">
-                    <p class="text-xs text-emerald-100 text-center">Pastikan data yang Anda masukkan benar. Tim kami akan menghubungi Anda untuk konfirmasi pembayaran.</p>
+                    <p class="text-xs text-emerald-100 text-center">Pastikan data yang Anda masukkan benar. Tim kami akan menghubungi Anda untuk konfirmasi pembayaran setelah formulir dikirim.</p>
                 </div>
             </div>
 
@@ -31,40 +31,65 @@
                 
                 <form action="{{ route('booking.store', $package->slug) }}" method="POST" class="space-y-5">
                     @csrf
+                    
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
-                        <input type="text" name="customer_name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+                        <input type="text" name="customer_name" value="{{ old('customer_name') }}" required 
+                            class="w-full px-4 py-2 border rounded-lg outline-none transition @error('customer_name') border-red-500 focus:ring-2 focus:ring-red-200 focus:border-red-500 @else border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 @enderror">
+                        @error('customer_name')
+                            <p class="text-red-500 text-xs mt-1 font-medium">⚠️ {{ $message }}</p>
+                        @enderror
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-                            <input type="email" name="customer_email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition">
+                            <input type="email" name="customer_email" value="{{ old('customer_email') }}" required 
+                                class="w-full px-4 py-2 border rounded-lg outline-none transition @error('customer_email') border-red-500 focus:ring-2 focus:ring-red-200 focus:border-red-500 @else border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 @enderror">
+                            @error('customer_email')
+                                <p class="text-red-500 text-xs mt-1 font-medium">⚠️ {{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">No. WhatsApp</label>
-                            <input type="text" name="customer_phone" required placeholder="0812..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition">
+                            <input type="text" name="customer_phone" value="{{ old('customer_phone') }}" required placeholder="Contoh: 08123456789" 
+                                class="w-full px-4 py-2 border rounded-lg outline-none transition @error('customer_phone') border-red-500 focus:ring-2 focus:ring-red-200 focus:border-red-500 @else border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 @enderror">
+                            @error('customer_phone')
+                                <p class="text-red-500 text-xs mt-1 font-medium">⚠️ {{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Check-in</label>
-                            <input type="date" name="check_in_date" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition">
+                            <input type="date" name="check_in_date" value="{{ old('check_in_date') }}" required 
+                                class="w-full px-4 py-2 border rounded-lg outline-none transition @error('check_in_date') border-red-500 focus:ring-2 focus:ring-red-200 focus:border-red-500 @else border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 @enderror">
+                            @error('check_in_date')
+                                <p class="text-red-500 text-xs mt-1 font-medium">⚠️ {{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Check-out</label>
-                            <input type="date" name="check_out_date" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition">
+                            <input type="date" name="check_out_date" value="{{ old('check_out_date') }}" required 
+                                class="w-full px-4 py-2 border rounded-lg outline-none transition @error('check_out_date') border-red-500 focus:ring-2 focus:ring-red-200 focus:border-red-500 @else border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 @enderror">
+                            @error('check_out_date')
+                                <p class="text-red-500 text-xs mt-1 font-medium">⚠️ {{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">Jml. Orang</label>
-                            <input type="number" name="total_guests" min="1" max="{{ $package->capacity }}" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition">
+                            <input type="number" name="total_guests" value="{{ old('total_guests', 1) }}" min="1" max="{{ $package->capacity }}" required 
+                                class="w-full px-4 py-2 border rounded-lg outline-none transition @error('total_guests') border-red-500 focus:ring-2 focus:ring-red-200 focus:border-red-500 @else border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 @enderror">
+                            @error('total_guests')
+                                <p class="text-red-500 text-xs mt-1 font-medium">⚠️ {{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="pt-4">
-                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-lg shadow-md transition duration-300">
-                            Konfirmasi Pesanan
+                        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-[1.01]">
+                            Konfirmasi Pesanan 🏕️
                         </button>
                     </div>
                 </form>

@@ -2,59 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CampingPackage;
-use App\Models\Booking; // Memanggil model Booking
-use Illuminate\Http\Request;
-use Carbon\Carbon; // Untuk menghitung selisih tanggal
-use Illuminate\Support\Str; // Untuk membuat kode unik
-
-class BookingController extends Controller
+abstract class Controller
 {
-    // 1. Menampilkan halaman form booking
-    public function show(CampingPackage $package)
-    {
-        return view('booking', compact('package'));
-    }
-
-    // 2. Menangkap data form, menghitung, dan menyimpan ke PostgreSQL
-    public function store(Request $request, CampingPackage $package)
-    {
-        // Validasi input dari pengunjung agar tidak ada data kosong/ngawur
-        $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email',
-            'customer_phone' => 'required|string|max:20',
-            'check_in_date' => 'required|date|after_or_equal:today',
-            'check_out_date' => 'required|date|after:check_in_date',
-            'total_guests' => 'required|integer|min:1|max:' . $package->capacity,
-        ]);
-
-        // Menghitung jumlah hari menginap
-        $checkIn = Carbon::parse($request->check_in_date);
-        $checkOut = Carbon::parse($request->check_out_date);
-        $days = $checkIn->diffInDays($checkOut);
-
-        // Menghitung total harga (Harga Paket x Jumlah Malam)
-        $totalPrice = $package->price * $days;
-
-        // Membuat Kode Booking unik (Contoh: GDY-20260516-X8A2)
-        $bookingCode = 'GDY-' . date('Ymd') . '-' . strtoupper(Str::random(4));
-
-        // Menyimpan data ke tabel bookings di PostgreSQL
-        Booking::create([
-            'booking_code' => $bookingCode,
-            'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'customer_phone' => $request->customer_phone,
-            'camping_package_id' => $package->id,
-            'check_in_date' => $request->check_in_date,
-            'check_out_date' => $request->check_out_date,
-            'total_guests' => $request->total_guests,
-            'total_price' => $totalPrice,
-            'status' => 'pending',
-        ]);
-
-        // Mengembalikan pengunjung ke halaman utama dengan pesan sukses
-        return redirect()->route('home')->with('success', 'Pesanan Anda untuk ' . $package->name . ' berhasil dibuat! Tim kami akan menghubungi Anda segera.');
-    }
+    //
 }

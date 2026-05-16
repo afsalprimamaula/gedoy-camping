@@ -9,21 +9,38 @@
 <body class="bg-emerald-50 text-gray-800 font-sans antialiased">
 
     <nav class="bg-emerald-800 text-white p-4 shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="{{ route('home') }}" class="text-2xl font-extrabold tracking-widest flex items-center gap-2">
-                🏕️ GEDOY
-            </a>
-            <ul class="hidden md:flex space-x-8 font-semibold">
-                <li><a href="{{ route('home') }}" class="hover:text-amber-400 transition">Beranda</a></li>
-                <li><a href="#fasilitas" class="hover:text-amber-400 transition">Fasilitas</a></li>
-                <li><a href="#paket" class="hover:text-amber-400 transition">Paket Camping</a></li>
-            </ul>
-            <a href="#booking" class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2 rounded-full font-bold shadow-md transition">
-                Pesan Sekarang
-            </a>
-        </div>
-    </nav>
+        </nav>
 
+    @if (session('error'))
+        <div id="alert-error" class="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-red-50 border-l-4 border-red-500 text-red-800 p-4 rounded shadow-2xl flex items-center justify-between w-11/12 max-w-2xl transition-all duration-500">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">⚠️</span>
+                <p class="font-semibold">{{ session('error') }}</p>
+            </div>
+            <button onclick="document.getElementById('alert-error').style.display='none'" class="text-red-800 hover:text-red-900 font-bold text-xl ml-4">&times;</button>
+        </div>
+        <script>setTimeout(() => { const el = document.getElementById('alert-error'); if(el) el.style.opacity = '0'; setTimeout(() => el.remove(), 500); }, 6000);</script>
+    @endif
+
+    @if ($errors->any())
+        <div id="alert-validation" class="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-red-50 border-l-4 border-red-500 text-red-800 p-4 rounded shadow-2xl w-11/12 max-w-2xl transition-all duration-500">
+            <div class="flex justify-between items-start">
+                <div class="flex gap-3">
+                    <span class="text-2xl">❌</span>
+                    <div>
+                        <p class="font-bold mb-1">Mohon periksa kembali form Anda:</p>
+                        <ul class="list-disc ml-5 text-sm space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <button onclick="document.getElementById('alert-validation').style.display='none'" class="text-red-800 hover:text-red-900 font-bold text-xl ml-4">&times;</button>
+            </div>
+        </div>
+        <script>setTimeout(() => { const el = document.getElementById('alert-validation'); if(el) el.style.opacity = '0'; setTimeout(() => el.remove(), 500); }, 8000);</script>
+    @endif
     <main class="min-h-screen">
         @yield('content')
     </main>
