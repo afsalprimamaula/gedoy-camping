@@ -25,34 +25,48 @@
         </div>
     </div>
 
-    <div id="fasilitas" class="py-24 bg-gray-50">
+    <div id="paket" class="py-24 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-emerald-800 mb-4">Pilihan Area Berkemah</h2>
+                <h2 class="text-4xl font-bold text-emerald-800 mb-4">Pilihan Paket Berkemah</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto">Tersedia dua area eksklusif yang dirancang khusus untuk kenyamanan dan ketenangan Anda menyatu dengan alam.</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition duration-300">
-                    <div class="h-64 bg-emerald-200 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=800&q=80" alt="River Camp" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                @foreach($packages as $package)
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="h-64 bg-emerald-200 relative overflow-hidden">
+                            @if($package->slug == 'river-camp')
+                                <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=800&q=80" alt="River Camp" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                            @else
+                                <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80" alt="Pinus Camp" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                            @endif
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-2xl font-bold text-gray-800">{{ $package->name }}</h3>
+                                <span class="text-emerald-700 font-extrabold text-xl">Rp {{ number_format($package->price, 0, ',', '.') }}<span class="text-sm font-normal text-gray-500">/malam</span></span>
+                            </div>
+                            <p class="text-gray-600 mb-6">{{ $package->description }}</p>
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                @foreach($package->features as $feature)
+                                    <span class="bg-emerald-50 text-emerald-700 text-xs px-3 py-1 rounded-full font-semibold border border-emerald-100">
+                                        ✓ {{ $feature }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-3">🌊 River Camp</h3>
-                        <p class="text-gray-600 mb-4">Berada tepat di pinggir sungai. Rasakan sensasi tidur ditemani gemericik air yang menenangkan serta akses dekat ke Curug Ciangin.</p>
+                    <div class="px-8 pb-8">
+                        <a href="{{ route('booking.show', $package->slug) }}" class="block text-center bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 shadow-md">
+                            Pilih {{ $package->name }}
+                        </a>
                     </div>
                 </div>
-
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition duration-300">
-                    <div class="h-64 bg-emerald-200 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=800&q=80" alt="Pinus Camp" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-3">🌲 Pinus Camp</h3>
-                        <p class="text-gray-600 mb-4">Cocok untuk Anda yang mencari ketenangan absolut. Area luas yang dinaungi pohon pinus rindang, cocok untuk Glamping keluarga.</p>
-                    </div>
+                @endforeach
                 </div>
-            </div>
         </div>
     </div>
 
