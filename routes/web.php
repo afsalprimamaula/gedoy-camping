@@ -12,3 +12,9 @@ Route::get('/booking/{package:slug}', [BookingController::class, 'show'])->name(
 
 // Route untuk menerima dan menyimpan data booking (POST)
 Route::post('/booking/{package:slug}', [BookingController::class, 'store'])->name('booking.store');
+
+// Panggil AdminController di bagian atas (di bawah BookingController)
+use App\Http\Controllers\AdminController;
+
+// Rute untuk Panel Admin
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
