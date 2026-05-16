@@ -18,3 +18,12 @@ use App\Http\Controllers\AdminController;
 
 // Rute untuk Panel Admin
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+// Rute untuk Panel Admin
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+// Rute untuk Validasi Status (Konfirmasi / Batal)
+Route::patch('/admin/booking/{booking}/status', [AdminController::class, 'updateStatus'])->name('admin.updateStatus');
+
+// Rute untuk Menghapus Data Pesanan
+Route::delete('/admin/booking/{booking}', [AdminController::class, 'destroy'])->name('admin.destroy');
