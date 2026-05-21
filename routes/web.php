@@ -4,16 +4,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController; // Panggil AuthController
+use App\Http\Controllers\AuthController;
 
 // Rute Tampilan Pengunjung (Publik)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/booking/{package:slug}', [BookingController::class, 'show'])->name('booking.show');
 Route::post('/booking/{package:slug}', [BookingController::class, 'store'])->name('booking.store');
 
-// Rute Autentikasi (Publik)
+// Rute Autentikasi (Login & Register)
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+// ---- INI RUTE YANG SEBELUMNYA TERLEWAT ----
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register')->middleware('guest');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+// -------------------------------------------
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Rute Panel Admin (TERKUNCI - Hanya untuk yang sudah login)
