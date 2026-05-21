@@ -22,6 +22,8 @@ return new class extends Migration
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('password');
+            $table->string('role')->default('user'); // Tambahkan baris ini (pilihan: user / admin)
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();

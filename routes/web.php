@@ -2,28 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BookingController; // Tambahkan baris ini untuk memanggil BookingController
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController; // Panggil AuthController
 
-// Route untuk halaman utama
+// Rute Tampilan Pengunjung (Publik)
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Route untuk halaman form booking (Ini yang sebelumnya terlewat)
 Route::get('/booking/{package:slug}', [BookingController::class, 'show'])->name('booking.show');
-
-// Route untuk menerima dan menyimpan data booking (POST)
 Route::post('/booking/{package:slug}', [BookingController::class, 'store'])->name('booking.store');
 
-// Panggil AdminController di bagian atas (di bawah BookingController)
-use App\Http\Controllers\AdminController;
+// Rute Autentikasi (Publik)
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Rute untuk Panel Admin
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-
-// Rute untuk Panel Admin
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-
-// Rute untuk Validasi Status (Konfirmasi / Batal)
-Route::patch('/admin/booking/{booking}/status', [AdminController::class, 'updateStatus'])->name('admin.updateStatus');
-
-// Rute untuk Menghapus Data Pesanan
-Route::delete('/admin/booking/{booking}', [AdminController::class, 'destroy'])->name('admin.destroy');
+// Rute Panel Admin (TERKUNCI - Hanya untuk yang sudah login)
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::patch('/admin/booking/{booking}/status', [AdminController::class, 'updateStatus'])->name('admin.updateStatus');
+    Route::delete('/admin/booking/{booking}', [AdminController::class, 'destroy'])->name('admin.destroy');
+});
