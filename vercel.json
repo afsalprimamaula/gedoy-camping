@@ -9,6 +9,7 @@
   },
 
   "buildCommand": "npm install && npm run build",
+  "outputDirectory": "public",
 
   "routes": [
     {
