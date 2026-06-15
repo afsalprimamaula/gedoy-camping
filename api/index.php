@@ -1,5 +1,44 @@
 <?php
 
+// ── DEBUG ENVIRONMENT ────────────────────────────────────────────────────────
+if (isset($_GET['debug_env'])) {
+    header('Content-Type: text/plain');
+    echo "=== ENVIRONMENT VARIABLES ===\n";
+    foreach (array_merge($_ENV, getenv()) as $key => $value) {
+        // Obfuscate sensitive credentials
+        if (stripos($key, 'password') !== false || stripos($key, 'key') !== false) {
+            $value = substr($value, 0, 3) . '...';
+        }
+        echo "$key: $value\n";
+    }
+    
+    echo "\n=== DATABASE CONNECTION TEST ===\n";
+    try {
+        $host = getenv('DB_HOST') ?: $_ENV['DB_HOST'] ?? null;
+        $port = getenv('DB_PORT') ?: $_ENV['DB_PORT'] ?? null;
+        $db   = getenv('DB_DATABASE') ?: $_ENV['DB_DATABASE'] ?? null;
+        $user = getenv('DB_USERNAME') ?: $_ENV['DB_USERNAME'] ?? null;
+        $pass = getenv('DB_PASSWORD') ?: $_ENV['DB_PASSWORD'] ?? null;
+        $ssl  = getenv('DB_SSLMODE') ?: $_ENV['DB_SSLMODE'] ?? null;
+        
+        echo "Host: $host\n";
+        echo "Port: $port\n";
+        echo "Database: $db\n";
+        echo "Username: $user\n";
+        echo "SSL Mode: $ssl\n";
+        
+        $dsn = "pgsql:host=$host;port=$port;dbname=$db;sslmode=$ssl";
+        $pdo = new PDO($dsn, $user, $pass, [
+            PDO::ATTR_TIMEOUT => 5,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+        echo "CONNECTION SUCCESSFUL!\n";
+    } catch (Exception $e) {
+        echo "CONNECTION FAILED: " . $e->getMessage() . "\n";
+    }
+    exit;
+}
+
 /**
  * Vercel Serverless Entry Point for Laravel (Gedoy Camping Park)
  *
