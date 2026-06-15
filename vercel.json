@@ -1,46 +1,40 @@
 {
   "version": 2,
   "framework": null,
+
   "functions": {
     "api/index.php": {
       "runtime": "vercel-php@0.7.3"
     }
   },
+
+  "buildCommand": "npm install && npm run build",
+
   "routes": [
     {
+      "comment": "Serve Vite-compiled JS/CSS assets from public/build/",
       "src": "/build/(.*)",
       "dest": "/public/build/$1"
     },
     {
+      "comment": "Serve uploaded or static images from public/images/",
       "src": "/images/(.*)",
       "dest": "/public/images/$1"
     },
     {
-      "src": "/favicon.ico",
+      "comment": "Serve favicon",
+      "src": "/favicon\\.ico",
       "dest": "/public/favicon.ico"
     },
     {
-      "src": "/robots.txt",
+      "comment": "Serve robots.txt",
+      "src": "/robots\\.txt",
       "dest": "/public/robots.txt"
     },
     {
+      "comment": "All other requests go through Laravel via the PHP serverless function",
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
-  ],
-  "outputDirectory": "public",
-  "buildCommand": "npm install && npm run build",
-  "env": {
-    "APP_ENV": "production",
-    "APP_DEBUG": "false",
-    "APP_CONFIG_CACHE": "/tmp/config.php",
-    "APP_EVENTS_CACHE": "/tmp/events.php",
-    "APP_PACKAGES_CACHE": "/tmp/packages.php",
-    "APP_ROUTES_CACHE": "/tmp/routes.php",
-    "APP_SERVICES_CACHE": "/tmp/services.php",
-    "VIEW_COMPILED_PATH": "/tmp",
-    "CACHE_STORE": "database",
-    "SESSION_DRIVER": "cookie",
-    "LOG_CHANNEL": "stderr"
-  }
+  ]
 }
