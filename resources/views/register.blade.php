@@ -36,16 +36,38 @@
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">Kata Sandi</label>
-                        <input type="password" name="password" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm text-gray-900">
+                        <div class="relative">
+                            <input id="password" type="password" name="password" required class="w-full pl-4 pr-12 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm text-gray-900">
+                            <button type="button" onclick="togglePasswordVisibility('password', this)" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-400 hover:text-gray-600 focus:outline-none select-none">
+                                👁️
+                            </button>
+                        </div>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">Ulangi Kata Sandi</label>
-                        <input type="password" name="password_confirmation" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm text-gray-900">
+                        <div class="relative">
+                            <input id="password_confirmation" type="password" name="password_confirmation" required class="w-full pl-4 pr-12 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm text-gray-900">
+                            <button type="button" onclick="togglePasswordVisibility('password_confirmation', this)" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-400 hover:text-gray-600 focus:outline-none select-none">
+                                👁️
+                            </button>
+                        </div>
                     </div>
                     <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-4 rounded-xl shadow transition duration-300 transform hover:scale-[1.01]">Buat Akun Member 🚀</button>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        function togglePasswordVisibility(id, btn) {
+            const input = document.getElementById(id);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁️';
+            }
+        }
+    </script>
 </body>
 </html>

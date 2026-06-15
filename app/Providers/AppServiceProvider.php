@@ -19,6 +19,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (\Schema::hasTable('settings')) {
+            $settings = \App\Models\Setting::pluck('value', 'key')->all();
+            view()->share('settings', $settings);
+        }
+
+        // Share cartCount globally across all views
+        view()->composer('*', function ($view) {
+            $cart = session()->get('cart', []);
+            $cartCount = 0;
+            if (is_array($cart)) {
+                foreach ($cart as $item) {
+                    $cartCount += $item['quantity'] ?? 0;
+                }
+            }
+            $view->with('cartCount', $cartCount);
+        });
     }
 }

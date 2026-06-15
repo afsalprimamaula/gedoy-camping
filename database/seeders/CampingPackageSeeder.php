@@ -11,23 +11,30 @@ class CampingPackageSeeder extends Seeder
     public function run(): void
     {
         CampingPackage::create([
-            'name' => 'River Camp',
-            'slug' => Str::slug('River Camp'),
+            'name' => 'Paket Camping 4 Orang',
+            'slug' => 'river-camp',
             'description' => 'Berada tepat di pinggir sungai. Rasakan sensasi tidur ditemani gemericik air yang menenangkan serta akses dekat ke Curug Ciangin.',
-            'price' => 250000, 
+            'price' => 350000, 
             'capacity' => 4,
-            // Cukup gunakan Array [], jangan gunakan json_encode()
-            'features' => ['Tenda Premium', 'Private Campfire', 'Kamar Mandi Air Panas', 'Akses Curug Ciangin']
+            'features' => ['papan dex alas tenda', 'sleeping bag', 'matras', 'lampu tenda', 'cooking set', 'sarapan']
         ]);
 
         CampingPackage::create([
-            'name' => 'Pinus Camp',
-            'slug' => Str::slug('Pinus Camp'),
-            'description' => 'Cocok untuk Anda yang mencari ketenangan absolut. Area luas yang dinaungi pohon pinus rindang, sangat ideal untuk Glamping keluarga.',
-            'price' => 400000, 
+            'name' => 'Sewa Tempat',
+            'slug' => 'pinus-camp',
+            'description' => 'Sewa area kavling/lahan camping eksklusif di Ciater. Bawa tenda sendiri dan nikmati ketenangan alam terbuka yang sejuk.',
+            'price' => 40000, 
             'capacity' => 6,
-            // Cukup gunakan Array [], jangan gunakan json_encode()
-            'features' => ['Tenda Glamping Besar', 'Kasur & Sleeping Bag', 'Listrik & Lampu Area', 'Private Campfire Area']
+            'features' => ['papan dex alas tenda', 'listrik dan lampu area', 'parkir gratis']
+        ]);
+
+        CampingPackage::create([
+            'name' => 'Villa Kabin Kayu',
+            'slug' => 'kabin-kayu',
+            'description' => 'Waktunya healing ke alam Subang! Nikmati pengalaman menginap di kabin kayu pedesaan dua lantai yang estetik dengan balkon gantung. Kapasitas hingga 3 orang, pas banget buat liburan bareng keluarga atau sirkel kamu! Nikmati malam yang syahdu di bawah hangatnya lampu hias, dengan udara sejuk khas Desa Wisata Cibeusi, Ciater.',
+            'price' => 400000, 
+            'capacity' => 3,
+            'features' => ['kabin kayu 2 lantai', 'balkon gantung', 'toilet modern terpisah', 'area parkir', 'kolam renang', 'nasi liwet & gurame bakar']
         ]);
     }
 }

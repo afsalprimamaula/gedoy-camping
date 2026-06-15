@@ -22,28 +22,23 @@
                     Gedoy <span class="text-amber-400">Camping Park</span>
                 </h1>
                 <p class="text-emerald-100/90 text-lg font-medium leading-relaxed">
-                    "Sistem Manajemen Terpadu untuk Validasi Data Reservasi, Manajemen Paket Wisata, dan Analisis Pendapatan Pengelola."
+                    "Sistem Manajemen Terpadu untuk Validasi Data Reservasi dan Manajemen Paket Wisata."
                 </p>
-                <div class="mt-8 pt-8 border-t border-white/10 flex justify-center gap-6 text-xs text-emerald-200/70">
-                    <span>⚡ Secure Authentication</span>
-                    <span>•</span>
-                    <span>📊 PostgreSQL Relational Data</span>
-                </div>
             </div>
         </div>
 
         <div class="w-full lg:w-1/2 flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-20 bg-white relative">
-            
-            <div class="absolute top-8 left-6 sm:left-12 lg:left-20">
-                <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 hover:text-emerald-900 transition-colors group">
-                    <span class="transform group-hover:-translate-x-1 transition-transform">←</span> Kembali ke Beranda Wisata
-                </a>
-            </div>
 
             <div class="mx-auto w-full max-w-md">
-                <div class="mb-10">
-                    <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Selamat Datang Admin 👋</h2>
-                    <p class="text-sm text-gray-500 mt-2">Silakan masukkan akun kredensial Anda untuk mengakses Dashboard Pengelola.</p>
+                <div class="mb-8 pt-6">
+                    <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition mb-6">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        Kembali ke Beranda
+                    </a>
+                    <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight mt-6">Selamat datang kembali</h2>
+                    <p class="text-sm text-gray-500 mt-2">Masuk ke akun Anda untuk melanjutkan</p>
                 </div>
 
                 @if ($errors->any())
@@ -78,26 +73,53 @@
                             </span>
                             <input id="password" type="password" name="password" required 
                                 placeholder="••••••••"
-                                class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition-all">
+                                class="w-full pl-10 pr-12 py-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white outline-none transition-all">
+                            <button type="button" onclick="togglePasswordVisibility('password', this)" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-400 hover:text-gray-600 focus:outline-none select-none">
+                                👁️
+                            </button>
                         </div>
+                    </div>
+
+                    <div class="flex items-center justify-between text-sm py-2">
+                        <label class="flex items-center gap-2 text-gray-600 cursor-pointer select-none">
+                            <input type="checkbox" name="remember" class="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                            <span>Ingat saya</span>
+                        </label>
+                        <a href="#" class="font-semibold text-emerald-700 hover:text-emerald-900 transition-colors">Lupa password?</a>
                     </div>
 
                     <div class="pt-2">
                         <button type="submit" 
                             class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99]">
-                            Masuk ke Ruang Kerja Admin 🚀
+                            Masuk
                         </button>
                     </div>
                 </form>
 
-                <div class="mt-16 text-center">
+                <div class="mt-6 text-center text-sm text-gray-500">
+                    Belum punya akun? <a href="{{ route('register') }}" class="font-semibold text-emerald-700 hover:text-emerald-900 transition-colors">Daftar sekarang</a>
+                </div>
+
+                <div class="mt-4 text-center">
                     <p class="text-xs text-gray-400 tracking-wide">
-                        &copy; 2026 Gedoy Camping Park. Manajemen Informatika UNPAS.
+                        &copy; 2026 Gedoy Camping Park.
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        function togglePasswordVisibility(id, btn) {
+            const input = document.getElementById(id);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁️';
+            }
+        }
+    </script>
 </body>
 </html>

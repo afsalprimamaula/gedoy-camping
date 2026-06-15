@@ -25,6 +25,10 @@ class BookingController extends Controller
             'check_out_date.after' => 'Tanggal Check-out harus setelah tanggal Check-in.',
             'total_guests.max' => 'Jumlah tamu melebihi batas maksimal kapasitas tenda.',
         ];
+        $maxQty = $package->slug === 'kabin-kayu' ? 2 : 10;
+        $qty = (int)$request->input('quantity', 1);
+        if ($qty < 1) $qty = 1;
+        if ($qty > $maxQty) $qty = $maxQty;
 
         // 2. Logika Validasi Ketat (Termasuk Regex Nomor Telepon Indonesia)
         $request->validate([
@@ -33,7 +37,8 @@ class BookingController extends Controller
             'customer_phone' => ['required', 'regex:/^(08|628|\+628)[0-9]{7,11}$/'], 
             'check_in_date' => 'required|date|after_or_equal:today',
             'check_out_date' => 'required|date|after:check_in_date',
-            'total_guests' => 'required|integer|min:1|max:' . $package->capacity,
+            'quantity' => 'required|integer|min:1|max:' . $maxQty,
+            'total_guests' => 'required|integer|min:1|max:' . ($package->capacity * $qty),
         ], $messages);
 
         // 3. Logika Mengecek Ketersediaan Tenda (Anti Double-Booking)
@@ -53,7 +58,7 @@ class BookingController extends Controller
         $checkIn = Carbon::parse($request->check_in_date);
         $checkOut = Carbon::parse($request->check_out_date);
         $days = $checkIn->diffInDays($checkOut);
-        $totalPrice = $package->price * $days;
+        $totalPrice = $package->price * $days * $qty;
         $bookingCode = 'GDY-' . date('Ymd') . '-' . strtoupper(Str::random(4));
 
         Booking::create([
@@ -62,6 +67,7 @@ class BookingController extends Controller
             'customer_email' => $request->customer_email,
             'customer_phone' => $request->customer_phone,
             'camping_package_id' => $package->id,
+            'quantity' => $qty,
             'check_in_date' => $request->check_in_date,
             'check_out_date' => $request->check_out_date,
             'total_guests' => $request->total_guests,
@@ -69,6 +75,6 @@ class BookingController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('home')->with('success', 'Pesanan Anda untuk ' . $package->name . ' berhasil dibuat! Tim kami akan segera menghubungi Anda.');
+        return redirect()->route('home')->with('success', 'Pesanan Anda untuk ' . $package->name . ' (' . $qty . ' paket) berhasil dibuat! Tim kami akan segera menghubungi Anda.');
     }
 }

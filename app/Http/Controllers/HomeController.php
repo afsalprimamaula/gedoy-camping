@@ -9,10 +9,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Mengambil semua data paket camping dari database PostgreSQL
-        $packages = CampingPackage::all();
+        // Mengambil paket camping yang aktif dari database
+        $packages = CampingPackage::where('is_active', true)->get();
 
-        // Mengirimkan data tersebut ke dalam view home.blade.php
-        return view('home', compact('packages'));
+        // Mengambil seluruh gambar galeri
+        $galleryImages = \App\Models\GalleryImage::orderBy('sort_order')->latest()->get();
+
+        return view('home', compact('packages', 'galleryImages'));
     }
 }

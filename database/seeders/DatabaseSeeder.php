@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
         // Menyuruh Laravel mengeksekusi kedua file seeder ini secara berurutan
         $this->call([
             UserSeeder::class,           // Menyuntikkan akun Admin & User
-            CampingPackageSeeder::class, // Menyuntikkan data paket Pinus & River Camp
+            CampingPackageSeeder::class, // Menyuntikkan data paket Sewa Tempat & Paket Camping
         ]);
     }
 }
