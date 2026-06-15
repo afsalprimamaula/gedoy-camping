@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (config('app.env') === 'production' || env('APP_ENV') === 'production') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         if (\Schema::hasTable('settings')) {
             $settings = \App\Models\Setting::pluck('value', 'key')->all();
             view()->share('settings', $settings);
