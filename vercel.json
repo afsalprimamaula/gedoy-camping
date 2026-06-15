@@ -12,27 +12,22 @@
 
   "routes": [
     {
-      "comment": "Serve Vite-compiled JS/CSS assets from public/build/",
       "src": "/build/(.*)",
       "dest": "/public/build/$1"
     },
     {
-      "comment": "Serve uploaded or static images from public/images/",
       "src": "/images/(.*)",
       "dest": "/public/images/$1"
     },
     {
-      "comment": "Serve favicon",
       "src": "/favicon\\.ico",
       "dest": "/public/favicon.ico"
     },
     {
-      "comment": "Serve robots.txt",
       "src": "/robots\\.txt",
       "dest": "/public/robots.txt"
     },
     {
-      "comment": "All other requests go through Laravel via the PHP serverless function",
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
