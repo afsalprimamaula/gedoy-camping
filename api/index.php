@@ -1,5 +1,27 @@
 <?php
 
+// ── 0. CLEAN UP ENV VARIABLES (TRIM WHITESPACES/TABS) ────────────────────────
+// This prevents copy-paste errors from Vercel's dashboard adding trailing or leading tabs.
+foreach ([
+    'DB_CONNECTION', 'DB_HOST', 'DB_PORT', 'DB_DATABASE', 
+    'DB_USERNAME', 'DB_PASSWORD', 'DB_SSLMODE', 
+    'APP_DEBUG', 'APP_ENV', 'APP_KEY'
+] as $key) {
+    $val = getenv($key);
+    if ($val === false && isset($_ENV[$key])) {
+        $val = $_ENV[$key];
+    }
+    if ($val === false && isset($_SERVER[$key])) {
+        $val = $_SERVER[$key];
+    }
+    if ($val !== false) {
+        $trimmed = trim((string)$val);
+        putenv("$key=$trimmed");
+        $_ENV[$key] = $trimmed;
+        $_SERVER[$key] = $trimmed;
+    }
+}
+
 // ── DEBUG ENVIRONMENT ────────────────────────────────────────────────────────
 if (isset($_GET['debug_env'])) {
     header('Content-Type: text/plain');
